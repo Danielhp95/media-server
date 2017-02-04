@@ -1,6 +1,6 @@
-Ideally we will turn this into a proper install script. But no hacker has time for that.
+Ideally this will turn into a install script. For now it will remeain as a dependency list for us to keep track of.
 
-List of dependencies:
+Dependencies:
 
-pylocker: general locking mechanism.
-scrapy: web scraper.
+pylocker: general python lock library
+scrapy: web scraper
