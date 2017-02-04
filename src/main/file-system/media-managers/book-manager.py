@@ -24,7 +24,7 @@ class BookMediaManager(MediaManager):
 
     # A book will just be a dictionary. Main fields are title and author
     # Parameter file is expected to be the FULL path to the directory
-    def addBook(book, file):
+    def addBook(self, book, file):
         name   = book['name']
         author = book['author']
         # may want to format the name/author
