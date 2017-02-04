@@ -22,5 +22,30 @@ class BookMediaManager(MediaManager):
         matches = [match for match in authors if levenshtein(match, author) < distance_threshold]              
         return matches
 
-    def addBook():
-        pass
+    # A book will just be a dictionary. Main fields are title and author
+    # Parameter file is expected to be the FULL path to the directory
+    def addBook(book, file):
+        name   = book['name']
+        author = book['author']
+        # may want to format the name/author
+
+        # check that file still there
+        if not os.path.isfile(os.path.abspath(file)):
+            # log that book did not exist
+            print('Book ' + name + ' by ' + author + ' was not found')
+
+        if 
+      
+        # Add author to library if it is not already there 
+        authorDirectory = os.path.join(ROOT_DIR, author)
+        if not os.path.isdir(authorDirectory):
+            print('New author added to library: ' + author)
+            os.mkdir(authorDirectory)
+
+        # Add file
+        if os.path.isfile(os.path.join(authorDirectory, name):
+            print('Book ' + name + ' by ' + ' already exists in library')
+        else:
+            os.rename(file, os.path.join(authorDirectory, name))
+            print('Book ' + name + ' by ' + ' added to library')
+            
