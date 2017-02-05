@@ -1,14 +1,7 @@
 import os
-import re
+import bookMannager
 
 # Surely there is a nicer way to go around this
-import sys
-
-import book-manager
-
-sys.path.insert(0, '../utils')
-
-import stringUtils
 
 
 class MediaManager():

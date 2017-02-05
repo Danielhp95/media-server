@@ -1,3 +1,4 @@
+from mediaManager import *
 
 class BookMediaManager(MediaManager):
 
@@ -34,7 +35,7 @@ class BookMediaManager(MediaManager):
             # log that book did not exist
             print('Book ' + name + ' by ' + author + ' was not found')
 
-        if 
+        # if
       
         # Add author to library if it is not already there 
         authorDirectory = os.path.join(ROOT_DIR, author)
