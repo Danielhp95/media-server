@@ -36,19 +36,42 @@ class BooksSpider(scrapy.Spider):
 
 
     def parse_search(self, response):
-
         if self._search_type == "keyword":
-            # TODO
+            first_result = response.css("ul#siteSearch li a::attr(href)").extract_first()
+            callbk = self.parse_open
         elif self._search_type == "author":
             first_result = response.css("ul.authorList li a::attr(href)").extract_first()
-            if first_result is not None:
-                first_result = response.urljoin(first_result)
-                yield scrapy.Request(first_result, callback=self.parse)
-                # TODO: new parse function for the author page
+            callbk = self.parse
+        elif self._search_type == "subject":
+            raise NotImplementedError("Not implemented, my man")
+
+        if first_result is not None:
+            first_result = response.urljoin(first_result)
+            yield scrapy.Request(first_result, callback=callbk)
 
 
+    def parse_open(self, response):
+        first_result = response.css("table#editions tbody tr .title a::attr(href)").extract_first()
+        if first_result is not None:
+            first_result = response.urljoin(first_result)
+            # self.log("LOOK HEEEEERE!!!! " + first_result)
+            yield scrapy.Request(first_result, callback=self.parse)
 
-        # for link in response.css("div.quote"):
+
+    def parse(self, response):
+        if self._search_type == "keyword":
+            self.log("AAAARARGGGHHHHH " + response.css(".editionCover img::attr(src)").extract_first())
+            yield {
+                "coverImg": response.css(".editionCover img::attr(src)").extract_first(),
+                "dowloadLinks": response.css("#readBooks a").extract(),
+            }
+        elif self._search_type == "author":
+            for book in response.css("ul#siteSearch li"):
+                yield {
+                    "title": book.css(".booktitle a::text").extract_first(),
+                }
+
+        # for quote in response.css("div.quote"):
         #     yield {
         #         "text": quote.css("span.text::text").extract_first(),
         #         "author": quote.css("span small::text").extract_first(),
