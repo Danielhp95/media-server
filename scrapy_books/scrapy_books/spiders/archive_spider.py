@@ -55,10 +55,17 @@ class ArchiveSpider(scrapy.Spider):
     def parse(self, response):
         if self._search_type == "keyword":
             # self.log("AAAARARGGGHHHHH " + response.css(".editionCover img::attr(src)").extract_first())
-            link = response.css(".quick-down a.download-pill::attr(href)").extract_first()
-            link = response.urljoin(link)
+            links = response.css(".quick-down a.download-pill")
+            the_link = None
+            for link in links:
+                if "TORRENT" in link.css("::text").extract_first():
+                    the_link = link.css("::attr(href)").extract_first()
+            if the_link is not None:
+                the_link = response.urljoin(the_link)
+            else:
+                raise Exception("dammit")
             yield {
-                "downloadLink": link,
+                "downloadLink": the_link,
             }
         # elif self._search_type == "author":
         #     for book in response.css("ul#siteSearch li"):
